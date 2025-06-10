@@ -1,15 +1,16 @@
-/* --- Variables de Color y Fuentes --- */
+/* --- Variables de Color y Fuentes (Sin cambios) --- */
 :root {
     --pink-light: #FCE4EC; /* Rosa muy claro para fondos */
     --purple-medium: #BA68C8; /* Morado medio para acentos y hover */
     --purple-dark: #6A1B9A;   /* Morado oscuro para texto principal */
     --white: #FFFFFF;
     --text-color: #4A4A4A;
-    --border-radius: 12px; /* Esquinas redondeadas */
+    --border-radius-pill: 50px; /* BORDES MUY REDONDEADOS para el efecto píldora */
+    --border-radius-card: 16px; /* Bordes para las tarjetas */
     --font-primary: 'Poppins', sans-serif;
 }
 
-/* --- Estilos Globales --- */
+/* --- Estilos Globales (Sin cambios) --- */
 body {
     font-family: var(--font-primary);
     background-color: var(--pink-light);
@@ -35,22 +36,20 @@ h2 {
     margin-bottom: 3rem;
 }
 
-/* --- Header y Navegación --- */
+/* --- Header y Navegación (AQUÍ ESTÁN LOS CAMBIOS IMPORTANTES) --- */
 .header {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
+    /* Quitamos el fondo y la sombra para un look más limpio y flotante */
     position: sticky;
     top: 0;
     width: 100%;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    padding: 1.5rem 0; /* Añadimos espacio para que los botones "floten" */
 }
 
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 80px;
 }
 
 .logo {
@@ -68,48 +67,57 @@ h2 {
     padding: 0;
 }
 
+/* CAMBIO CLAVE: El estilo de los botones del menú */
 .nav-link {
     display: block;
-    padding: 0.8rem 1.5rem;
+    padding: 12px 28px; /* Más padding para la forma de píldora */
     text-decoration: none;
-    color: var(--text-color);
+    color: var(--purple-dark);
+    background-color: var(--white);
     font-weight: 600;
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-pill); /* ¡La magia de la píldora! */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease-in-out;
 }
 
-.nav-link:hover, .dropdown:hover .nav-link {
+.nav-link:hover, .dropdown.active .nav-link {
     background-color: var(--purple-medium);
     color: var(--white);
-    transform: translateY(-3px);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(186, 104, 200, 0.4);
 }
 
-/* --- Submenú Desplegable (Dropdown) --- */
+/* CAMBIO CLAVE: El posicionamiento y estilo del submenú */
 .dropdown {
     position: relative;
 }
 
 .dropdown-menu {
     position: absolute;
-    top: 110%; /* Posición inicial fuera de la vista */
-    left: 0;
+    top: calc(100% + 10px); /* Posición justo debajo del botón con un pequeño espacio */
+    left: 50%; /* Centrado con respecto al botón padre */
+    transform: translateX(-50%); /* Ajuste fino para el centrado */
+    
     background-color: var(--white);
-    border-radius: var(--border-radius);
+    border-radius: var(--border-radius-card); /* Bordes redondeados pero no tanto como píldora */
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
     list-style: none;
-    padding: 0.5rem 0;
+    padding: 0.5rem;
     margin: 0;
-    min-width: 180px;
+    min-width: 200px;
+    
+    /* Animación de entrada */
     opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
+    transform: translateX(-50%) translateY(10px);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.dropdown:hover .dropdown-menu {
+/* Clase 'active' que se activará con JavaScript */
+.dropdown.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
 }
 
 .dropdown-menu a {
@@ -117,6 +125,7 @@ h2 {
     padding: 0.8rem 1.5rem;
     color: var(--text-color);
     text-decoration: none;
+    border-radius: 10px; /* Bordes redondeados también para los ítems internos */
     transition: background-color 0.2s ease;
 }
 
@@ -125,83 +134,12 @@ h2 {
     color: var(--purple-dark);
 }
 
-/* --- Sección Hero --- */
-.hero {
-    text-align: center;
-    padding: 5rem 0;
-}
 
-.hero h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1rem;
-}
-
-.hero p {
-    font-size: 1.2rem;
-    color: var(--purple-medium);
-}
-
-/* --- Sección de Catálogo --- */
-.catalog-section {
-    padding: 4rem 0;
-}
-
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-}
-
-.category-card {
-    position: relative;
-    display: block;
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.category-card:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 15px 30px rgba(106, 27, 154, 0.2);
-}
-
-.category-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.4s ease;
-}
-
-.category-card:hover img {
-    transform: scale(1.1);
-}
-
-.category-title {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(106, 27, 154, 0.7);
-    color: var(--white);
-    text-align: center;
-    padding: 1rem;
-    font-size: 1.3rem;
-    font-weight: 600;
-    backdrop-filter: blur(5px);
-    transform: translateY(100%);
-    transition: transform 0.4s ease;
-}
-
-.category-card:hover .category-title {
-    transform: translateY(0);
-}
-
-/* --- Footer --- */
-.footer {
-    text-align: center;
-    padding: 2rem 0;
-    margin-top: 4rem;
-    background-color: var(--white);
-    color: var(--purple-medium);
-}
+/* --- Secciones Hero y Catálogo (Sin cambios significativos) --- */
+.hero { text-align: center; padding: 4rem 0; }
+.hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+.hero p { font-size: 1.2rem; color: var(--purple-medium); }
+.catalog-section { padding: 4rem 0; }
+.category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+.category-card { position: relative; display: block; overflow: hidden; border-radius: var(--border-radius-card); box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+.category-card:hover { transform: translateY(-10px) scale(1.0
